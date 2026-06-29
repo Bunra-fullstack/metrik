@@ -1,9 +1,9 @@
+import Navbar from './components/landing/Navbar'
+
 function App() {
   return (
-    <div className="min-h-screen bg-gray-900 flex items-center justify-center">
-      <h1 className="text-4xl font-bold text-white">
-        Metrik is alive 🚀
-      </h1>
+    <div className="min-h-screen bg-gray-900">
+      <Navbar />
     </div>
   )
 }
