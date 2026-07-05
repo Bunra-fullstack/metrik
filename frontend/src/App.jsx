@@ -1,20 +1,15 @@
-import Navbar from './components/landing/Navbar'
-import Hero from './components/landing/Hero'
-import Features from './components/landing/Features'
-import Pricing from './components/landing/Pricing'
-import Footer from './components/landing/Footer'
-
+import { BrowserRouter, Routes, Route } from 'react-router-dom'
+import LandingPage from './pages/LandingPage'
+import LoginPage from './pages/LoginPage'
 
 function App() {
   return (
-    <div className="min-h-screen bg-gray-900">
-      <Navbar />
-      <Hero />
-      <Features />
-      <Pricing />
-      <Footer />
-
-    </div>
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<LandingPage />} />
+        <Route path="/login" element={<LoginPage />} />
+      </Routes>
+    </BrowserRouter>
   )
 }
 
