@@ -1,1 +1,20 @@
+# Dependencies
+node_modules/
+
+# Environment variables — NEVER commit these
+.env
+.env.local
+.env.production
+
+# Build output
+dist/
+build/
+
+# Mac system files
+.DS_Store
+
+# VS Code settings
+.vscode/
+
+# Private notes
 Private_Notes.md
