@@ -1,19 +1,29 @@
-import { useState } from 'react'
-import { Link } from 'react-router-dom'
+import { useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
+import api from '../services/api';
 
 function LoginPage() {
-  const [email, setEmail] = useState('')
-  const [password, setPassword] = useState('')
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [error, setError] = useState('');
+  const navigate = useNavigate();
 
-  const handleSubmit = (e) => {
-    e.preventDefault()
-    console.log('Login attempt:', { email, password })
-  }
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    try {
+      const response = await api.post('/auth/login', { email, password });
+      localStorage.setItem('token', response.data.token);
+      setError('');
+      navigate('/dashboard');
+    } catch (err) {
+      setError(err.response?.data?.message || 'Invalid email or password');
+    }
+  };
 
   return (
     <div className="min-h-screen bg-gray-900 flex items-center justify-center px-6">
       <div className="w-full max-w-sm">
-
         {/* Logo */}
         <Link to="/" className="block text-center mb-8">
           <span className="text-white text-2xl font-bold tracking-tight">
@@ -28,7 +38,6 @@ function LoginPage() {
           </h1>
 
           <form onSubmit={handleSubmit} className="flex flex-col gap-4">
-
             {/* Email field */}
             <div>
               <label className="text-gray-400 text-sm block mb-1.5">
@@ -66,21 +75,22 @@ function LoginPage() {
             >
               Log In
             </button>
-
           </form>
 
           {/* Sign up link */}
           <p className="text-gray-400 text-sm text-center mt-6">
-            Don't have an account?{" "}
-            <Link to="/signup" className="text-indigo-400 hover:text-indigo-300">
+            Don't have an account?{' '}
+            <Link
+              to="/signup"
+              className="text-indigo-400 hover:text-indigo-300"
+            >
               Sign up
             </Link>
           </p>
         </div>
-
       </div>
     </div>
-  )
+  );
 }
 
-export default LoginPage
+export default LoginPage;

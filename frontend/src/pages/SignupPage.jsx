@@ -1,29 +1,36 @@
-import { useState } from 'react'
-import { Link } from 'react-router-dom'
+import { useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
+import api from '../services/api';
 
 function SignupPage() {
-  const [name, setName] = useState('')
-  const [email, setEmail] = useState('')
-  const [password, setPassword] = useState('')
-  const [confirmPassword, setConfirmPassword] = useState('')
-  const [error, setError] = useState('')
+  const [name, setName] = useState('');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
+  const [error, setError] = useState('');
+  const navigate = useNavigate();
 
-  const handleSubmit = (e) => {
-    e.preventDefault()
+  const handleSubmit = async (e) => {
+    e.preventDefault();
 
     if (password !== confirmPassword) {
-      setError("Passwords don't match")
-      return
+      setError("Passwords don't match");
+      return;
     }
 
-    setError('')
-    console.log('Signup attempt:', { name, email, password })
-  }
+    try {
+      const response = await api.post('/auth/signup', { name, email, password });
+      localStorage.setItem('token', response.data.token);
+      setError('');
+      navigate('/dashboard');
+    } catch (err) {
+      setError(err.response?.data?.message || 'Something went wrong');
+    }
+  };
 
   return (
     <div className="min-h-screen bg-gray-900 flex items-center justify-center px-6 py-12">
       <div className="w-full max-w-sm">
-
         {/* Logo */}
         <Link to="/" className="block text-center mb-8">
           <span className="text-white text-2xl font-bold tracking-tight">
@@ -38,7 +45,6 @@ function SignupPage() {
           </h1>
 
           <form onSubmit={handleSubmit} className="flex flex-col gap-4">
-
             {/* Name field */}
             <div>
               <label className="text-gray-400 text-sm block mb-1.5">
@@ -100,9 +106,7 @@ function SignupPage() {
             </div>
 
             {/* Error message */}
-            {error && (
-              <p className="text-red-400 text-sm">{error}</p>
-            )}
+            {error && <p className="text-red-400 text-sm">{error}</p>}
 
             {/* Submit button */}
             <button
@@ -111,21 +115,19 @@ function SignupPage() {
             >
               Sign Up
             </button>
-
           </form>
 
           {/* Login link */}
           <p className="text-gray-400 text-sm text-center mt-6">
-            Already have an account?{" "}
+            Already have an account?{' '}
             <Link to="/login" className="text-indigo-400 hover:text-indigo-300">
               Log in
             </Link>
           </p>
         </div>
-
       </div>
     </div>
-  )
+  );
 }
 
-export default SignupPage
+export default SignupPage;
