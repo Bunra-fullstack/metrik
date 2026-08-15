@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import api from '../services/api';
+import { useAuth } from '../context/AuthContext';
 
 function SignupPage() {
   const [name, setName] = useState('');
@@ -9,6 +10,7 @@ function SignupPage() {
   const [confirmPassword, setConfirmPassword] = useState('');
   const [error, setError] = useState('');
   const navigate = useNavigate();
+  const { login } = useAuth();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -19,8 +21,13 @@ function SignupPage() {
     }
 
     try {
-      const response = await api.post('/auth/signup', { name, email, password });
-      localStorage.setItem('token', response.data.token);
+      const response = await api.post('/auth/signup', {
+        name,
+        email,
+        password,
+      });
+      const { token, ...userData } = response.data;
+      login(userData, token);
       setError('');
       navigate('/dashboard');
     } catch (err) {
