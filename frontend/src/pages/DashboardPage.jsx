@@ -1,5 +1,6 @@
 import Sidebar from '../components/dashboard/Sidebar';
 import StatCard from '../components/dashboard/StatCard';
+import DashboardChart from '../components/dashboard/DashboardChart';
 import { useAuth } from '../context/AuthContext';
 
 function DashboardPage() {
@@ -22,6 +23,8 @@ function DashboardPage() {
           <StatCard label="Revenue" value="$8,420" change="+5%" />
           <StatCard label="Active Sessions" value="342" change="-2%" />
         </div>
+
+        <DashboardChart />
 
       </main>
     </div>

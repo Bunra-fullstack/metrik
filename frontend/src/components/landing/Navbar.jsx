@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { Link } from 'react-router-dom';
 
 function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
@@ -35,12 +36,18 @@ function Navbar() {
 
         {/* Buttons — desktop only */}
         <div className="hidden md:flex items-center gap-3">
-          <button className="text-gray-400 hover:text-white text-sm transition-colors">
+          <Link
+            to="/login"
+            className="text-gray-400 hover:text-white text-sm transition-colors"
+          >
             Login
-          </button>
-          <button className="bg-indigo-600 hover:bg-indigo-500 text-white text-sm font-medium px-4 py-2 rounded-lg transition-colors">
+          </Link>
+          <Link
+            to="/signup"
+            className="bg-indigo-600 hover:bg-indigo-500 text-white text-sm font-medium px-4 py-2 rounded-lg transition-colors"
+          >
             Get Started
-          </button>
+          </Link>
         </div>
 
         {/* Hamburger icon — mobile only */}
@@ -73,12 +80,18 @@ function Navbar() {
           >
             About
           </a>
-          <button className="text-gray-400 hover:text-white text-sm text-left transition-colors">
+          <Link
+            to="/login"
+            className="text-gray-400 hover:text-white text-sm text-left transition-colors"
+          >
             Login
-          </button>
-          <button className="bg-indigo-600 hover:bg-indigo-500 text-white text-sm font-medium px-4 py-2 rounded-lg transition-colors">
+          </Link>
+          <Link
+            to="/signup"
+            className="bg-indigo-600 hover:bg-indigo-500 text-white text-sm font-medium px-4 py-2 rounded-lg transition-colors"
+          >
             Get Started
-          </button>
+          </Link>
         </div>
       )}
     </nav>
