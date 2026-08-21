@@ -63,3 +63,56 @@ Concepts I've learned while building this project, explained in my own understan
 - Build the signup API endpoint
 - Build the login API endpoint with JWT
 - Connect frontend forms to these real endpoints
+
+## Session 5 — Password Hashing & First Working API Endpoint
+
+### What I built
+- Added password hashing to the User model using bcryptjs
+  (pre-save hook + matchPassword method)
+- Built the first real API endpoint: POST /api/auth/signup
+- Tested it with curl — successfully created a real user in
+  MongoDB with a hashed password
+- Set up Prettier with a shared config (.prettierrc) across
+  the whole project — consistent semicolons and formatting
+  on every save
+
+### Key concepts learned
+- **Pre-save hooks** — Mongoose middleware that runs automatically
+  right before a document saves (used to hash passwords)
+- **async function without `next`** — mixing async/await with the
+  older callback-style `next()` causes crashes; async functions
+  finish on their own once they reach the end
+- **bcrypt hashing** — one-way scrambling of passwords; salt
+  rounds control security vs speed trade-off
+- **Controllers vs Routes** — routes map URLs to functions,
+  controllers hold the actual logic (professional file
+  organization pattern)
+- **HTTP status codes** — 201 (created), 400 (bad request),
+  500 (server error) — communicate outcome without reading text
+- **curl** — testing API endpoints directly from the terminal,
+  without needing Postman
+- **Automatic Semicolon Insertion (ASI) risk** — JavaScript can
+  silently misinterpret code without semicolons; Prettier now
+  enforces them consistently to prevent this
+
+### A real bug I hit and fixed
+- Got `"next is not a function"` — caused by mixing async/await
+  with the older `next()` callback pattern in a Mongoose hook.
+  Fixed by removing `next` entirely since async functions don't
+  need it.
+- Got `"bcrypt.hash(...) is not a function"` — caused by a stray
+  `()` on its own line, which JavaScript silently joined with the
+  line above due to missing semicolons, turning a string into an
+  attempted function call. Fixed by removing the stray line and
+  setting up Prettier to enforce semicolons going forward.
+
+### Security incident (from last session, resolved)
+- Accidentally committed backend/.env with a real MongoDB
+  password due to an incomplete .gitignore
+- Fixed by resetting the MongoDB password immediately, rebuilding
+  .gitignore properly, and wiping Git history to remove all trace
+
+### Next up
+- Build the Login API endpoint (using matchPassword + JWT)
+- Connect frontend Signup/Login forms to real endpoints
+- Build protected routes (JWT middleware)
