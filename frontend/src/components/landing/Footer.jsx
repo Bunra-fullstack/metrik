@@ -1,72 +1,91 @@
-function Footer() {
-  const linkColumns = [
+const footerLinks = {
+  Product: [
+    { label: 'Features', href: '#features', external: false },
+    { label: 'Pricing', href: '#pricing', external: false },
+  ],
+  Connect: [
     {
-      title: 'Product',
-      links: ['Features', 'Pricing', 'Dashboard', 'Integrations'],
+      label: 'GitHub',
+      href: 'https://github.com/Bunra-fullstack/metrik',
+      external: true,
     },
-    {
-      title: 'Company',
-      links: ['About', 'Blog', 'Careers', 'Contact'],
-    },
-    {
-      title: 'Resources',
-      links: ['Documentation', 'Support', 'Privacy Policy', 'Terms of Service'],
-    },
-  ];
+    { label: 'Email', href: 'mailto:bunrahoeun@gmail.com', external: true },
+  ],
+  Legal: [
+    { label: 'Privacy', comingSoon: true },
+    { label: 'Terms', comingSoon: true },
+    { label: 'Blog', comingSoon: true },
+  ],
+};
+
+function FooterLink({ item }) {
+  if (item.comingSoon) {
+    return (
+      <span
+        className="text-gray-600 text-sm cursor-not-allowed"
+        title="Coming soon"
+      >
+        {item.label}
+      </span>
+    );
+  }
 
   return (
-    <footer
-      id="about"
-      className="w-full bg-gray-900 border-t border-gray-800 px-6 py-16"
+    <a
+      href={item.href}
+      {...(item.external && { target: '_blank', rel: 'noopener noreferrer' })}
+      className="text-gray-400 hover:text-white text-sm transition-colors"
     >
-      <div className="max-w-6xl mx-auto">
-        {/* Top row */}
-        <div className="flex flex-col md:flex-row justify-between gap-10 mb-12">
-          {/* Logo + tagline */}
-          <div className="max-w-xs">
-            <div className="text-white text-2xl font-bold tracking-tight mb-3">
-              Metr<span className="text-indigo-500">ik</span>
-            </div>
-            <p className="text-gray-400 text-sm">
-              Clear, real-time insights into your business metrics — no
-              complexity, just answers.
+      {item.label}
+    </a>
+  );
+}
+
+export default function Footer() {
+  return (
+    <footer className="bg-gray-950 border-t border-gray-800">
+      <div className="max-w-7xl mx-auto px-6 py-12">
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
+          {/* Brand column */}
+          <div className="col-span-2 md:col-span-1">
+            <span className="text-white font-bold text-lg">Metrik</span>
+            <p className="text-gray-500 text-sm mt-2">
+              Analytics dashboard for tracking what matters.
             </p>
           </div>
 
           {/* Link columns */}
-          <div className="grid grid-cols-2 md:grid-cols-3 gap-8">
-            {linkColumns.map((column, index) => (
-              <div key={index}>
-                <h4 className="text-white font-semibold text-sm mb-4">
-                  {column.title}
-                </h4>
-                <ul className="space-y-3">
-                  {column.links.map((link, i) => (
-                    <li key={i}>
-                      <a
-                        href="#"
-                        className="text-gray-400 hover:text-white text-sm transition-colors"
-                      >
-                        {link}
-                      </a>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            ))}
-          </div>
+          {Object.entries(footerLinks).map(([section, links]) => (
+            <div key={section}>
+              <h3 className="text-gray-300 text-sm font-semibold mb-3">
+                {section}
+              </h3>
+              <ul className="space-y-2">
+                {links.map((item) => (
+                  <li key={item.label}>
+                    <FooterLink item={item} />
+                  </li>
+                ))}
+              </ul>
+            </div>
+          ))}
         </div>
 
-        {/* Bottom row */}
-        <div className="border-t border-gray-800 pt-8 flex flex-col md:flex-row justify-between items-center gap-4">
-          <p className="text-gray-500 text-sm">
-            © 2026 Metrik. All rights reserved.
+        <div className="border-t border-gray-800 mt-10 pt-6">
+          <p className="text-gray-600 text-sm text-center">
+            © {new Date().getFullYear()} Metrik. Built by{' '}
+            <a
+              href="https://github.com/Bunra-fullstack/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-gray-400 hover:text-white transition-colors"
+            >
+              Bunra
+            </a>
+            .
           </p>
-          <p className="text-gray-500 text-sm">Built by Bunra</p>
         </div>
       </div>
     </footer>
   );
 }
-
-export default Footer;
